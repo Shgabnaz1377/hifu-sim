@@ -1,0 +1,38 @@
+# Water stand-off followed by soft tissue. The focus sits 20 mm deep in tissue; the
+# heat source Q = 2 alpha I is non-zero only in the tissue, where the Pennes model
+# (with perfusion) gives the temperature rise and the CEM43 thermal dose.
+name: tissue_layer
+description: Focusing through a water stand-off into soft tissue, with heating.
+
+grid:
+  size: [0.050, 0.044]
+  spacing: 1.0e-4
+
+pml:
+  thickness: 20
+
+medium:
+  background: water
+  regions:
+    - kind: layer
+      material: soft_tissue
+      x_min: 0.018
+      x_max: 1.0
+
+source:
+  frequency: 1.0e6
+  amplitude: 6.0e5
+  radius: 0.030
+  aperture_deg: 70
+  n_elements: 32
+  focus: [0.038, 0.022]
+
+simulation:
+  cfl: 0.3
+  record_cycles: 4
+
+thermal:
+  enabled: true
+  heating_time: 4.0        # s of continuous sonication
+  cooling_time: 6.0
+  initial_temperature: 37.0

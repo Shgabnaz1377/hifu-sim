@@ -1,0 +1,35 @@
+# Homogeneous water: the textbook case. A 70-degree, 30 mm radius arc array focuses
+# a 1 MHz continuous wave at (38, 22) mm. Useful as a reference for the other configs.
+name: water
+description: 1 MHz cylindrically focused arc array in homogeneous water.
+
+grid:
+  size: [0.050, 0.044]     # axial x, lateral y [m]
+  spacing: 1.0e-4          # 15 points per wavelength in water at 1 MHz
+
+pml:
+  thickness: 20            # cells, inside the grid on all four sides
+  order: 3
+  reflection: 1.0e-5
+
+medium:
+  background: water
+  regions: []
+
+source:
+  frequency: 1.0e6         # Hz
+  amplitude: 1.0e5         # Pa, plane-wave pressure radiated by the arc surface
+  radius: 0.030            # m, also the geometric focal length
+  aperture_deg: 70
+  n_elements: 32
+  focus: [0.038, 0.022]    # geometric focus (centre of curvature) [m]
+  steer: [0.0, 0.0]        # electronic steering offset from the focus [m]
+  ramp_cycles: 3
+
+simulation:
+  cfl: 0.3
+  record_cycles: 4
+  backend: auto            # numba if installed, else numpy
+
+thermal:
+  enabled: false           # water barely absorbs at 1 MHz

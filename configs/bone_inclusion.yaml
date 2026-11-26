@@ -1,0 +1,43 @@
+# Same tissue set-up with a 3 mm radius bone-like inclusion partly blocking the lower
+# half of the beam, 10 mm before the focus. Shows reflection, shadowing, the shifted
+# and weakened focus, and the strong heating at the bone surface (bone absorbs ~13x
+# more than soft tissue at 1 MHz). Bone is modelled as a fluid: no shear waves.
+name: bone_inclusion
+description: Soft tissue with a bone-like circular inclusion in the beam path.
+
+grid:
+  size: [0.050, 0.044]
+  spacing: 1.0e-4
+
+pml:
+  thickness: 20
+
+medium:
+  background: water
+  regions:
+    - kind: layer
+      material: soft_tissue
+      x_min: 0.018
+      x_max: 1.0
+    - kind: circle
+      material: bone
+      center: [0.028, 0.016]
+      radius: 0.003
+
+source:
+  frequency: 1.0e6
+  amplitude: 6.0e5
+  radius: 0.030
+  aperture_deg: 70
+  n_elements: 32
+  focus: [0.038, 0.022]
+
+simulation:
+  cfl: 0.3
+  record_cycles: 4
+
+thermal:
+  enabled: true
+  heating_time: 4.0
+  cooling_time: 6.0
+  initial_temperature: 37.0
