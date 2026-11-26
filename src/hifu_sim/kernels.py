@@ -29,14 +29,14 @@ import numpy as np
 
 from .grid import FloatArray
 
-_numba: Any
+_numba: Any = None
 try:  # pragma: no cover - exercised implicitly depending on the environment
-    import numba as _numba
+    import numba
     from numba import njit, prange
 
+    _numba = numba
     NUMBA_AVAILABLE = True
 except ImportError:  # pragma: no cover
-    _numba = None
     NUMBA_AVAILABLE = False
 
 
