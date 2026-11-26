@@ -1,0 +1,81 @@
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hifu-sim"
+version = "0.1.0"
+description = "FDTD simulation of focused ultrasound (HIFU) in heterogeneous tissue, with PML boundaries, phased-array steering and Pennes/CEM43 thermal post-processing."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Shabnaz Ghaffari" }]
+requires-python = ">=3.11"
+keywords = ["ultrasound", "HIFU", "FDTD", "acoustics", "bioheat", "simulation"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Typing :: Typed",
+]
+dependencies = [
+    "numpy>=1.24",
+    "matplotlib>=3.7",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+numba = ["numba>=0.59"]
+dev = [
+    "pytest>=7.4",
+    "ruff>=0.5",
+    "mypy>=1.8",
+    "types-PyYAML",
+]
+notebooks = [
+    "jupyter-core",
+    "nbconvert>=7",
+    "nbformat>=5",
+    "ipykernel>=6",
+]
+
+[project.scripts]
+hifu-sim = "hifu_sim.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/Shgabnaz1377/hifu-sim"
+Issues = "https://github.com/Shgabnaz1377/hifu-sim/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/hifu_sim"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "tests", "configs", "README.md", "LICENSE"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-include = ["*.ipynb"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "NPY", "SIM", "RUF"]
+ignore = ["RUF001", "RUF002", "RUF003"]
+
+[tool.ruff.lint.per-file-ignores]
+"examples/*.ipynb" = ["E402", "E501"]
+
+[tool.mypy]
+python_version = "3.11"
+files = ["src/hifu_sim"]
+warn_unused_ignores = false
+ignore_missing_imports = true
+disallow_untyped_defs = true
+check_untyped_defs = true
